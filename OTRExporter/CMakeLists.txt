@@ -170,6 +170,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/../../libultraship/src
     ${CMAKE_CURRENT_SOURCE_DIR}/../../libultraship/extern
     ${CMAKE_CURRENT_SOURCE_DIR}/../../libultraship/src/resource
+		${CMAKE_CURRENT_SOURCE_DIR}/../../libultraship/extern/spdlog/include/spdlog
+		${CMAKE_CURRENT_SOURCE_DIR}/../../libultraship/extern/tinyxml2
     ${CMAKE_CURRENT_SOURCE_DIR}/../../mm/2s2h
 	.
 )
@@ -177,8 +179,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 find_package(nlohmann_json REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
 
-find_package(spdlog REQUIRED)
-target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
+if (NOT CMAKE_SYSTEM_NAME STREQUAL "NintendoSwitch")
+	find_package(spdlog REQUIRED)
+	target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
+endif()
 
 FetchContent_Declare(
     StormLib
